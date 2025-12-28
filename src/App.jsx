@@ -165,51 +165,50 @@ export default function TwitterCommentTool() {
           </div>
           
           <div className="space-y-4">
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Paste Twitter Links (one per line or separated by spaces)
               </label>
-              {/* <textarea
+              <textarea
                 value={twitterLinks}
                 onChange={(e) => setTwitterLinks(e.target.value)}
                 placeholder="https://twitter.com/user/status/123456789&#10;https://x.com/user/status/987654321&#10;..."
                 className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-              /> */}
-              <textarea
-  value={twitterLinks}
-  onChange={(e) => setTwitterLinks(e.target.value)}
-  onPaste={(e) => {
-    // Prevent default paste behavior
-    e.preventDefault();
-    
-    // Get pasted text from clipboard
-    const pastedText = e.clipboardData.getData('text');
-    
-    // Get current cursor position
-    const textarea = e.target;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    
-    // Insert pasted text at cursor position
-    const newValue = 
-      twitterLinks.substring(0, start) + 
-      pastedText + 
-      twitterLinks.substring(end);
-    
-    setTwitterLinks(newValue);
-    
-    // Set cursor position after pasted content
-    setTimeout(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + pastedText.length;
-    }, 0);
-  }}
-  placeholder="https://twitter.com/user/status/123456789&#10;https://x.com/user/status/987654321&#10;..."
-  className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-/>
+              />
               <p className="text-xs text-gray-500 mt-2">
                 {extractTwitterLinks(twitterLinks).length} valid links detected
               </p>
-            </div>
+            </div> */}
+            <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Paste Twitter Links (one per line or separated by spaces)
+  </label>
+  <div className="space-y-2">
+    <textarea
+      value={twitterLinks}
+      onChange={(e) => setTwitterLinks(e.target.value)}
+      placeholder="https://twitter.com/user/status/123456789&#10;https://x.com/user/status/987654321&#10;..."
+      className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+    />
+    <button
+      onClick={async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          setTwitterLinks(prev => prev ? prev + '\n' + text : text);
+        } catch (err) {
+          setError('Unable to read clipboard. Please paste manually.');
+          setTimeout(() => setError(''), 3000);
+        }
+      }}
+      className="w-full sm:w-auto bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition text-sm font-medium border border-gray-300"
+    >
+      📋 Paste from Clipboard
+    </button>
+  </div>
+  <p className="text-xs text-gray-500 mt-2">
+    {extractTwitterLinks(twitterLinks).length} valid links detected
+  </p>
+</div>
 
             {error && (
               <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-lg">
