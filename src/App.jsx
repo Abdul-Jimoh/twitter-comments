@@ -169,12 +169,43 @@ export default function TwitterCommentTool() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Paste Twitter Links (one per line or separated by spaces)
               </label>
-              <textarea
+              {/* <textarea
                 value={twitterLinks}
                 onChange={(e) => setTwitterLinks(e.target.value)}
                 placeholder="https://twitter.com/user/status/123456789&#10;https://x.com/user/status/987654321&#10;..."
                 className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-              />
+              /> */}
+              <textarea
+  value={twitterLinks}
+  onChange={(e) => setTwitterLinks(e.target.value)}
+  onPaste={(e) => {
+    // Prevent default paste behavior
+    e.preventDefault();
+    
+    // Get pasted text from clipboard
+    const pastedText = e.clipboardData.getData('text');
+    
+    // Get current cursor position
+    const textarea = e.target;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    
+    // Insert pasted text at cursor position
+    const newValue = 
+      twitterLinks.substring(0, start) + 
+      pastedText + 
+      twitterLinks.substring(end);
+    
+    setTwitterLinks(newValue);
+    
+    // Set cursor position after pasted content
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + pastedText.length;
+    }, 0);
+  }}
+  placeholder="https://twitter.com/user/status/123456789&#10;https://x.com/user/status/987654321&#10;..."
+  className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+/>
               <p className="text-xs text-gray-500 mt-2">
                 {extractTwitterLinks(twitterLinks).length} valid links detected
               </p>
