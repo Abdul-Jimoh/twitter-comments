@@ -228,8 +228,8 @@ export default function TwitterCommentTool() {
                   key={item.id}
                   className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
                 >
-                  <div className="flex items-start gap-3">
-                    <div className="flex-1">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex-1 mb-4">
                       <div className="flex items-start gap-2 mb-2">
                         <p className="text-gray-800 flex-1">{item.comment}</p>
                         <button
