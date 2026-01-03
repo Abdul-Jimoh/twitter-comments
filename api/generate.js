@@ -30,32 +30,43 @@ export default async function handler(req, res) {
                 model: 'llama-3.3-70b-versatile',
                 messages: [{
                     role: 'user',
-                    content: `Generate ${numComments} unique, engaging Twitter reply comments that work for ANY tweet. 
-          
-          CRITICAL RULES:
-          - Never mention specific content types (thread, video, article, image, poll, etc.)
-          - Keep comments universally applicable
-          - Be genuine and conversational
-          - 1-2 sentences maximum
-          - Mix different tones: supportive, curious, thoughtful, enthusiastic
-          - No hashtags, emojis, or promotional content
-          - Avoid phrases like "love this thread", "great article", "nice video"
-          
-          GOOD EXAMPLES:
-          - "This really resonates. Thanks for sharing your perspective on this."
-          - "Interesting take! I hadn't thought about it from that angle before."
-          - "Appreciate you putting this out there. Gives me something to think about."
-          - "This is valuable. Saving this for later reference."
-          - "Really well said. This needed to be discussed more openly."
-          - "Thanks for sharing this insight. It's refreshing to see."
-          - "You make a compelling point here. Would love to hear more of your thoughts."
-          - "This is spot on. Needed to see this today."
-          
-          Return ONLY a JSON array of strings, no other text:
-          ["comment1", "comment2", ...]`
+                    content: `Generate ${numComments} completely unique and diverse Twitter reply comments. Each comment must be DIFFERENT from the others.
+
+CRITICAL REQUIREMENTS:
+- Every comment must use completely different words, phrases, and sentence structures
+- Never repeat the same opening words (avoid starting multiple comments with "This", "Great", "Thanks", "Interesting", etc.)
+- Never mention specific content types: NO thread, video, article, post, image, take, perspective, insight, point
+- Use natural, casual language that real people use
+- 1-2 sentences maximum
+- Mix tones: thoughtful, curious, supportive, enthusiastic, reflective, appreciative
+- No hashtags, no emojis, no promotional language
+- Be creative and authentic
+
+VARIETY TECHNIQUES:
+- Use different sentence starters
+- Vary between statements, questions, and reactions
+- Mix short punchy comments with slightly longer ones
+- Include different emotional tones
+- Use varied vocabulary
+
+FORBIDDEN PHRASES (do not use):
+- "love this thread/post/article"
+- "great point/take/insight" 
+- "thanks for sharing"
+- "this resonates"
+- "well said"
+- "spot on"
+
+Focus on creating genuine human reactions that could apply to any tweet without being specific about what type of content it is.
+
+Return ONLY a JSON array of ${numComments} unique comment strings with NO other text:
+["comment1", "comment2", ...]`
                 }],
-                temperature: 0.9,
-                max_tokens: 2000
+                temperature: 1.2,
+                max_tokens: 3000,
+                top_p: 0.95,
+                frequency_penalty: 1.5,
+                presence_penalty: 1.5
             })
         });
 
